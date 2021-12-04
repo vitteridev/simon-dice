@@ -42,8 +42,6 @@ function remarcarColor(id) {
 function obtenerSecuenciaMaquina() {
   let color = obtenerColorRandom();
   secuenciaDeColoresMaquina.push(color);
-  remarcarColor(color);
-  console.log(secuenciaDeColoresMaquina);
 }
 
 function bloquearClicksJugador() {
@@ -65,14 +63,28 @@ function compararSecuencias(nivelActual) {
       }, 1000);
     }
   } else {
-    alert("perdiste");
-    secuenciaDeColoresJugador = [];
-    secuenciaDeColoresMaquina = [];
+    juegoPerdido();
   }
+}
+
+function desbloquearBotonJugar() {
+  $btnJugar.classList.remove("bloquear-clicks");
+}
+
+function bloquearBotonJugar() {
+  $btnJugar.classList.add("bloquear-clicks");
+}
+
+function juegoPerdido() {
+  alert("perdiste");
+  secuenciaDeColoresJugador = [];
+  secuenciaDeColoresMaquina = [];
+  desbloquearBotonJugar();
 }
 
 function ronda() {
   secuenciaDeColoresJugador = [];
+  bloquearBotonJugar();
 
   bloquearClicksJugador();
   obtenerSecuenciaMaquina();
