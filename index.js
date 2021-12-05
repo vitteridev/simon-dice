@@ -80,6 +80,7 @@ function juegoPerdido() {
   secuenciaDeColoresJugador = [];
   secuenciaDeColoresMaquina = [];
   desbloquearBotonJugar();
+  bloquearClicksJugador();
 }
 
 function ronda() {
