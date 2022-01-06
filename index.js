@@ -1,33 +1,25 @@
 let secuenciaDeColoresJugador = [];
 let secuenciaDeColoresMaquina = [];
 const COLORES = ["blue", "red", "yellow", "green"];
-const $BOTONES = document.querySelectorAll(".btn");
-const contenedorDeBotones = document.querySelector(".contenedor-de-botones");
+const $botones = document.querySelectorAll(".btn");
+const $contenedorDeBotones = document.querySelector(".contenedor-de-botones");
 
 const $btnJugar = document.querySelector(".btn-jugar");
 
-$btnJugar.onclick = ronda;
+$btnJugar.onclick = manejarRonda;
 
-function obtenerSecuenciaJugador(color) {
-  secuenciaDeColoresJugador.push(color);
-}
-
-$BOTONES.forEach((boton) => {
+$botones.forEach((boton) => {
   boton.addEventListener("click", function (btn) {
-    let colorJugador = btn.target.id;
-    obtenerSecuenciaJugador(colorJugador);
+    const colorJugador = btn.target.id;
+    secuenciaDeColoresJugador.push(colorJugador);
     remarcarColor(colorJugador);
     compararSecuencias(secuenciaDeColoresJugador.length - 1);
   });
 });
 
-function obtenerNumeroRandom() {
-  let numeroRandom = Math.floor(Math.random() * COLORES.length);
-  return numeroRandom;
-}
-
 function obtenerColorRandom() {
-  return COLORES[obtenerNumeroRandom()];
+  let numRandom = Math.floor(Math.random() * COLORES.length);
+  return COLORES[numRandom];
 }
 
 function remarcarColor(id) {
@@ -39,17 +31,17 @@ function remarcarColor(id) {
   }, 250);
 }
 
-function obtenerSecuenciaMaquina() {
+function agregarSecuenciaMaquina() {
   let color = obtenerColorRandom();
   secuenciaDeColoresMaquina.push(color);
 }
 
 function bloquearClicksJugador() {
-  contenedorDeBotones.classList.add("bloquear-clicks");
+  $contenedorDeBotones.classList.add("bloquear-clicks");
 }
 
 function desbloquearClicksJugador() {
-  contenedorDeBotones.classList.remove("bloquear-clicks");
+  $contenedorDeBotones.classList.remove("bloquear-clicks");
 }
 
 function compararSecuencias(nivelActual) {
@@ -59,11 +51,11 @@ function compararSecuencias(nivelActual) {
   ) {
     if (secuenciaDeColoresMaquina.length === secuenciaDeColoresJugador.length) {
       setTimeout(() => {
-        ronda();
+        manejarRonda();
       }, 1000);
     }
   } else {
-    juegoPerdido();
+    perder();
   }
 }
 
@@ -75,7 +67,7 @@ function bloquearBotonJugar() {
   $btnJugar.classList.add("bloquear-clicks");
 }
 
-function juegoPerdido() {
+function perder() {
   alert("perdiste");
   secuenciaDeColoresJugador = [];
   secuenciaDeColoresMaquina = [];
@@ -83,12 +75,12 @@ function juegoPerdido() {
   bloquearClicksJugador();
 }
 
-function ronda() {
+function manejarRonda() {
   secuenciaDeColoresJugador = [];
   bloquearBotonJugar();
 
   bloquearClicksJugador();
-  obtenerSecuenciaMaquina();
+  agregarSecuenciaMaquina();
 
   secuenciaDeColoresMaquina.forEach(function ($boton, i) {
     const contadorMaquina = (i + 1) * 1000;
